@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-package-lock.json
+# package-lock.json  # 保留此文件以锁定依赖版本（推荐）
 
 # Environment variables
 .env
