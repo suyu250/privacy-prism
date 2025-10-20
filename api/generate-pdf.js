@@ -98,7 +98,7 @@ module.exports = async (req, res) => {
     
     doc.fillColor(primaryColor)
        .fontSize(36)
-       .text('🔍 PRIVACY PRISM', 50, 200, { align: 'center' });
+       .text('PRIVACY PRISM', 50, 200, { align: 'center' });
 
     doc.fillColor(textColor)
        .fontSize(16)
