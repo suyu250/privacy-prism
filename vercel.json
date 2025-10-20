@@ -1,15 +1,6 @@
 {
   "version": 2,
-  "name": "privacy-prism",
   "rewrites": [
-    {
-      "source": "/api/analyze",
-      "destination": "/backend/api/analyze.js"
-    },
-    {
-      "source": "/api/health",
-      "destination": "/backend/api/health.js"
-    },
     {
       "source": "/(.*)",
       "destination": "/frontend/$1"
