@@ -177,8 +177,21 @@ async function startAnalysis(input, type) {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Analysis failed');
+      // Try to parse as JSON, fallback to text
+      let errorMessage = 'Analysis failed';
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const error = await response.json();
+          errorMessage = error.error || errorMessage;
+        } else {
+          const text = await response.text();
+          errorMessage = text || errorMessage;
+        }
+      } catch (e) {
+        // Use default error message
+      }
+      throw new Error(errorMessage);
     }
 
     // Handle streaming response
