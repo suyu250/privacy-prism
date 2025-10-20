@@ -27,9 +27,6 @@
     "pdfkit": "^0.17.2",
     "undici": "^7.16.0"
   },
-  "devDependencies": {
-    "puppeteer": "^24.25.0"
-  },
   "engines": {
     "node": ">=18.x"
   }
