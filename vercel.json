@@ -1,0 +1,57 @@
+{
+  "version": 2,
+  "name": "privacy-prism",
+  "builds": [
+    {
+      "src": "backend/api/analyze.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "backend/api/health.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/analyze",
+      "dest": "/backend/api/analyze.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/api/health",
+      "dest": "/backend/api/health.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type"
+        }
+      ]
+    }
+  ]
+}
+
