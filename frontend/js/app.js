@@ -437,6 +437,11 @@ async function handleDownload() {
     });
 
     if (!response.ok) {
+      // Check if it's a 501 (Not Implemented) response
+      if (response.status === 501) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'PDF generation not available');
+      }
       throw new Error('Failed to generate PDF');
     }
 
@@ -456,7 +461,13 @@ async function handleDownload() {
 
   } catch (error) {
     console.error('PDF generation error:', error);
-    showError('Failed to generate PDF. Please try again.');
+    
+    // Check if it's a known limitation error
+    if (error.message && error.message.includes('browser')) {
+      showError('PDF generation is not available in the deployed version. Please use your browser\'s Print function (Ctrl+P or Cmd+P) to save as PDF.');
+    } else {
+      showError('Failed to generate PDF. Please try again or use browser Print (Ctrl+P).');
+    }
   } finally {
     elements.downloadBtn.disabled = false;
     elements.downloadBtn.innerHTML = `
