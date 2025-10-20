@@ -1,4 +1,6 @@
 const PDFDocument = require('pdfkit');
+const path = require('path');
+const fs = require('fs');
 
 /**
  * Generate a styled PDF report from analysis results using PDFKit
@@ -21,6 +23,15 @@ async function generatePDF(analysisData) {
           right: 50
         }
       });
+
+      // Register Chinese font
+      const fontPath = path.join(__dirname, '../fonts/NotoSansSC.otf');
+      if (fs.existsSync(fontPath)) {
+        doc.registerFont('NotoSansSC', fontPath);
+        doc.font('NotoSansSC');
+      } else {
+        console.warn('Chinese font not found, using default font');
+      }
 
       // Buffer to store PDF
       const buffers = [];

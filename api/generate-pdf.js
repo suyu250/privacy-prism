@@ -1,5 +1,7 @@
 // Vercel Serverless Function for PDF generation using PDFKit
 const PDFDocument = require('pdfkit');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = async (req, res) => {
   // Handle CORS preflight
@@ -37,6 +39,16 @@ module.exports = async (req, res) => {
         right: 50
       }
     });
+
+    // Register Chinese font
+    const fontPath = path.join(__dirname, '../backend/fonts/NotoSansSC.otf');
+    if (fs.existsSync(fontPath)) {
+      doc.registerFont('NotoSansSC', fontPath);
+      doc.font('NotoSansSC');
+      console.log('[Vercel] Chinese font registered');
+    } else {
+      console.warn('[Vercel] Chinese font not found, using default font');
+    }
 
     // Set response headers
     res.setHeader('Content-Type', 'application/pdf');
